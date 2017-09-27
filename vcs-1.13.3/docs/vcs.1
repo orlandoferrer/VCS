@@ -1,0 +1,992 @@
+'\" t
+.\"     Title: VCS
+.\"    Author: Toni Corvera <outlyer@gmail.com>
+.\" Generator: DocBook XSL Stylesheets v1.79.1 <http://docbook.sf.net/>
+.\"      Date: Last revision: 2017-05-23
+.\"    Manual: Video Contact Sheet *NIX
+.\"    Source: vcs $Rev: 668 $
+.\"  Language: English
+.\"
+.TH "VCS" "1" "Last revision: 2017\-05\-23" "vcs $Rev: 668 $" "Video Contact Sheet *NIX"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+vcs \- create contact sheets from videos
+.SH "SYNOPSIS"
+.HP \w'\fBvcs\fR\ 'u
+\fBvcs\fR [\fIOPTION\fR...] \fIFILE\fR [\fIFILE\fR...]
+.HP \w'\fBvcs\fR\ 'u
+\fBvcs\fR [\fB\-\-output=\fR\fB\fIOUTPUT1\fR\fR] [\fB\-\-output=\fR\fB\fIOUTPUT2\fR\fR] [\fB\&.\&.\&.\fR] \fIINPUT1\fR [\fIINPUT2\fR...]
+.HP \w'\fBvcs\fR\ 'u
+\fBvcs\fR [[\fB\-n\ \fR\fB\fI20\fR\fR] | [\fB\-i\ \fR\fB\fI1m\fR\fR]] [\fB\-c\ \fR\fB\fI4\fR\fR] [\fB\-H\ \fR\fB\fI120\fR\fR] [...] \fIFILE\fR...
+.HP \w'\fBvcs\fR\ 'u
+\fBvcs\fR [{\fB\-h\fR\ |\ \fB\-\-help\fR} | \fB\-\-fullhelp\fR  | \fB\-DD\fR ]
+.HP \w'\fBvcs\fR\ 'u
+\fBvcs\fR [\fIOPTION\fR...] \fB\-\-generate\fR\ {config\ |\ profile}
+.SH "DESCRIPTION"
+.PP
+\fBvcs\fR
+creates a preview image from videos in a contact sheet\-like format (i\&.e\&. captures from different frames in the video are placed in a mosaic)\&.
+.PP
+By default the output file will be named like the input file plus the png extension\&. Example: "file\&.avi" will produce a contact sheet in the file "file\&.avi\&.png"\&.
+.PP
+The default mode of operation is to obtain captures every five minutes in the video, so the amount of captures will vary with each file\&. The command\-line argument
+\fI\-\-numcaps\fR
+(\fI\-n\fR) can be used to change this behaviour or alternatively a configuration file might be used to change the mode of operation (see
+\fBvcs.conf\fR(5))\&.
+.PP
+This manual page documents
+\fBvcs\fR, further documentation can be found in the
+\m[blue]\fBonline documentation\fR\m[]\&\s-2\u[1]\d\s+2
+site\&.
+.SH "OPTIONS"
+.PP
+The program follows the usual GNU command line syntax, with long options starting with two dashes (`\-\*(Aq)\&. A summary of options is included below\&.
+.PP
+\fB\-n \fR\fB\fInumber\fR\fR, \fB\-\-numcaps=\fR\fB\fInumber\fR\fR
+.RS 4
+Fixes the number of captures to obtain\&.
+.sp
+Sets the mode of operation to capture a fixed number of frames\&.
+.RE
+.PP
+\fB\-i \fR\fB\fIINTERVAL\fR\fR, \fB\-\-interval=\fR\fB\fIINTERVAL\fR\fR
+.RS 4
+Sets the interval between captures\&.
+.sp
+Sets the mode of operation to capture at fixed intervals\&.
+.sp
+The number of captures will depend on the video length\&.
+.sp
+See the accepted syntax at
+the section called \(lqINTERVALS\(rq\&.
+.RE
+.PP
+\fB\-c \fR\fB\fINUMBER\fR\fR, \fB\-\-columns=\fR\fB\fINUMBER\fR\fR
+.RS 4
+Number of columns in the contact sheet\&.
+.sp
+The number of rows will depend on this value and the number of captures (there\*(Aqs no way to set the number of rows)\&.
+.RE
+.PP
+\fB\-H \fR\fB\fIHEIGHT\fR\fR, \fB\-\-height=\fR\fB\fIHEIGHT\fR\fR
+.RS 4
+Height of captures\&.
+.sp
+Can be a number (of pixels) or a percentage (of the video height)\&.
+.sp
+By default the same size as the video is used\&.
+.if n \{\
+.sp
+.\}
+.RS 4
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+.ps +1
+\fBNote\fR
+.ps -1
+.br
+The width is derived from height and aspect ratio\&.
+.sp .5v
+.RE
+.if n \{\
+.sp
+.\}
+.RS 4
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+.ps +1
+\fBTip\fR
+.ps -1
+.br
+\fIHEIGHT\fR
+x
+\fIWIDTH\fR
+can be manually forced by setting both
+\fB\-H\fR
+and
+\fB\-a\fR, e\&.g\&.
+\fI640x480\fR:
+.sp
+$ \fBvcs \-a 640/480 \-H 480 \fR\fB\fI[\&.\&.\&.]\fR\fR
+.sp .5v
+.RE
+.RE
+.PP
+\fB\-o \fR\fB\fIFILENAME\fR\fR, \fB\-\-output=\fR\fB\fIFILENAME\fR\fR
+.RS 4
+Name of output file\&.
+.sp
+By default the video file name plus the output format is used (e\&.g\&. "video\&.avi\&.png" for "video\&.avi")\&.
+.sp
+If an extension is provided, it will define the output format, otherwise PNG will be used\&. I\&.e\&.
+sheet\&.jpg
+will produce a JPEG file while
+sheet
+or
+sheet\&.png
+will produce a PNG file\&.
+.RE
+.PP
+\fB\-h\fR, \fB\-\-help\fR
+.RS 4
+Show summary of most common options\&.
+.RE
+.PP
+\fB\-\-fullhelp\fR
+.RS 4
+Show summary of all options\&.
+.RE
+.PP
+\fB\-a \fR\fB\fIASPECT\fR\fR, \fB\-\-aspect \fR\fB\fIASPECT\fR\fR
+.RS 4
+Aspect ratio\&.
+.sp
+Accepts a floating point number or a fraction\&.
+.RE
+.PP
+\fB\-f \fR\fB\fITIMESTAMP\fR\fR, \fB\-\-from \fR\fB\fITIMESTAMP\fR\fR
+.RS 4
+Set starting time\&. No captures will be made before this
+\fITIMESTAMP\fR\&.
+.sp
+See the accepted syntax at
+the section called \(lqINTERVALS\(rq\&.
+.RE
+.PP
+\fB\-t \fR\fB\fITIMESTAMP\fR\fR, \fB\-\-to \fR\fB\fITIMESTAMP\fR\fR
+.RS 4
+Set ending time\&. No captures will be made after this TIMESTAMP\&.
+.sp
+See the accepted syntax at
+the section called \(lqINTERVALS\(rq\&.
+.RE
+.PP
+\fB\-T \fR\fB\fITITLE\fR\fR, \fB\-\-title \fR\fB\fITITLE\fR\fR
+.RS 4
+Add a title above the captures\&.
+.RE
+.PP
+\fB\-j\fR, \fB\-\-jpeg\fR
+.RS 4
+Output file in JPEG format\&.
+.sp
+The default output format is PNG\&.
+.RE
+.PP
+\fB\-j2\fR, \fB\-\-jpeg2\fR, \fB\-\-jpeg=2\fR
+.RS 4
+Output file in JPEG 2000 format\&.
+.sp
+The default output format is PNG\&.
+.RE
+.PP
+\fB\-V\fR, \fB\-\-dvd\fR
+.RS 4
+DVD mode\&.
+.sp
+In this mode the input files must be the DVD device(s) or ISO(s)\&.
+.sp
+When in DVD mode all input files must be DVDs\&.
+.if n \{\
+.sp
+.\}
+.RS 4
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+.ps +1
+\fBNote\fR
+.ps -1
+.br
+Implies
+\fB\-A\fR
+(auto aspect ratio)\&.
+.sp .5v
+.RE
+.RE
+.PP
+\fB\-\-dvd\-title \fR\fB\fITITLENUM\fR\fR
+.RS 4
+DVD title to use\&.
+.sp
+Using 0 (the default) will use the longest title\&.
+.RE
+.PP
+\fB\-M\fR, \fB\-\-mplayer\fR
+.RS 4
+Use Mplayer to capture\&.
+.RE
+.PP
+\fB\-F\fR, \fB\-\-ffmpeg\fR
+.RS 4
+Use FFmpeg to capture\&.
+.sp
+This is the default, except in DVD mode\&.
+.RE
+.PP
+\fB\-E \fR\fB\fIOFFSET\fR\fR, \fB\-\-end\-offset \fR\fB\fIOFFSET\fR\fR
+.RS 4
+This amount of time is ignored from the end of the video\&.
+.sp
+This value is not used when a explicit ending time is set (\fB\-\-to\fR)\&.
+.sp
+Accepted formats:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Time stamp (See the accepted syntax at
+the section called \(lqINTERVALS\(rq\&.)
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Percentage of video length\&.
+.RE
+.sp
+The default is 5\&.5%\&.
+.RE
+.PP
+\fB\-q\fR, \fB\-\-quiet\fR
+.RS 4
+Don\*(Aqt print progress messages just errors\&.
+.sp
+Repeat to mute completely, even on error\&.
+.RE
+.PP
+\fB\-d \fR\fB\fIFEATURE\fR\fR, \fB\-\-disable \fR\fB\fIFEATURE\fR\fR
+.RS 4
+Disable some default functionality\&.
+.sp
+Features that can be disabled are:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fItimestamps\fR: use
+\fB\-d\fR\fB\fIt\fR\fR
+or
+\fB\-\-disable \fR\fB\fItimestamps\fR\fR
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fIshadows\fR: use
+\fB\-d\fR\fB\fIs\fR\fR
+or
+\fB\-\-disable \fR\fB\fIshadows\fR\fR
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fIpadding\fR: use
+\fB\-d\fR\fB\fIp\fR\fR
+or
+\fB\-\-disable \fR\fB\fIpadding\fR\fR
+.RE
+.sp
+.if n \{\
+.sp
+.\}
+.RS 4
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+.ps +1
+\fBNote\fR
+.ps -1
+.br
+Shadows introduce some extra padding
+.sp .5v
+.RE
+.RE
+.PP
+\fB\-A\fR, \fB\-\-autoaspect\fR
+.RS 4
+Try to guess aspect ratio from resolution\&.
+.sp
+A rude hard\-coded method is used based only on known common dimensions\&.
+.RE
+.PP
+\fB\-e\fR, \fB\-e\fR\fB[\fIFACTOR\fR]\fR, \fB\-\-extended=\fR\fB[\fIFACTOR\fR]\fR
+.RS 4
+Enables extended mode and optionally sets the extended factor\&.
+.sp
+When
+\fIFACTOR\fR
+is omitted, 4 is used, i\&.e\&.
+\fB\-e\fR
+is the same as
+\fB\-e4\fR\&.
+.RE
+.PP
+\fB\-l \fR\fB\fITIMESTAMP\fR\fR, \fB\-\-highlight \fR\fB\fITIMESTAMP\fR\fR
+.RS 4
+Add the frame found at
+\fITIMESTAMP\fR
+as a highlight\&.
+.sp
+See the accepted syntax at
+the section called \(lqINTERVALS\(rq\&.
+.RE
+.PP
+\fB\-m\fR, \fB\-\-manual\fR
+.RS 4
+Manual mode\&.
+.sp
+In this mode only timestamps indicated by the user are used (use in conjunction with
+\fB\-S\fR)\&.
+.sp
+When using this option,
+\fB\-i\fR
+and
+\fB\-n\fR
+are ignored\&.
+.RE
+.PP
+\fB\-S \fR\fB\fITIMESTAMP\fR\fR, \fB\-\-stamp \fR\fB\fITIMESTAMP\fR\fR
+.RS 4
+Add the frame at
+\fITIMESTAMP\fR
+to the set of captures\&.
+.sp
+See the accepted syntax at
+the section called \(lqINTERVALS\(rq\&.
+.RE
+.PP
+\fB\-u \fR\fB\fINAME\fR\fR, \fB\-\-user \fR\fB\fINAME\fR\fR
+.RS 4
+Set the user name (included by default in the contact sheet\*(Aqs footer) to
+\fINAME\fR\&.
+.RE
+.PP
+\fB\-U\fR, \fB\-\-fullname\fR
+.RS 4
+Use user\*(Aqs full/real name (e\&.g\&. John Smith) as set in the system\*(Aqs list of users (i\&.e\&. in
+/etc/passwd
+or through
+\fBgetent\fR)\&.
+.RE
+.PP
+\fB\-p \fR\fB\fIPROFILE\fR\fR, \fB\-\-profile \fR\fB\fIPROFILE\fR\fR
+.RS 4
+Load profile named
+\fIPROFILE\fR\&.
+.sp
+Profile names starting with \*(Aq:\*(Aq are reserved and have special meanings, currently:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fI:list\fR
+\(em Will list all profiles found in the system
+.RE
+.sp
+If
+\fIPROFILE\fR
+doesn\*(Aqt exist, exit with error\&.
+.RE
+.PP
+\fB\-C \fR\fB\fICONFIG\fR\fR, \fB\-\-config \fR\fB\fICONFIG\fR\fR
+.RS 4
+Load configuration file
+\fICONFIG\fR
+.sp
+Configuration
+\fIfile names\fR
+starting with \*(Aq:\*(Aq are reserved and have special meanings, currently:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fI:pwd\fR
+\(em Will try to load
+\&./vcs\&.conf\&.
+.sp
+This file has been loaded by default up to vcs v1\&.13
+.RE
+.sp
+If
+\fICONFIG\fR
+doesn\*(Aqt exist, exit with error\&.
+.RE
+.PP
+\fB\-\-generate \fR\fB\fIconfig|profile\fR\fR
+.RS 4
+Generate configuration or profile from the current settings and print it\&.
+.sp
+All settings changed from the default, by either configuration, profiles or command\-line options, will be included in the generated text\&.
+.RE
+.PP
+\fB\-k \fR\fB\fIMODE\fR\fR, \fB\-\-funky \fR\fB\fIMODE\fR\fR
+.RS 4
+Funky modes
+.sp
+These are
+\fItoy\fR
+output modes in which the contact sheet gets a more informal look\&.
+.if n \{\
+.sp
+.\}
+.RS 4
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+.ps +1
+\fBCaution\fR
+.ps -1
+.br
+Order
+\fBIS IMPORTANT\fR, it affects output\&.
+.sp
+A bad order will produce a bad result\&.
+.sp .5v
+.RE
+Many of these modes are random in nature so using the same mode twice will usually lead to very different results\&.
+.sp
+Currently available
+\fIfunky modes\fR:
+.PP
+\fIoverlap\fR: Use \fB\-k\fR\fB\fIo\fR\fR or \fB\-\-funky \fR\fB\fIoverlap\fR\fR
+.RS 4
+Randomly overlap captures\&.
+.RE
+.PP
+\fIrotate\fR: Use \fB\-k\fR\fB\fIr\fR\fR or \fB\-\-funky \fR\fB\fIrotate\fR\fR
+.RS 4
+Randomly rotate each image\&.
+.RE
+.PP
+\fIphotoframe\fR: Use \fB\-k\fR\fB\fIf\fR\fR or \fB\-\-funky \fR\fB\fIphotoframe\fR\fR
+.RS 4
+Adds a photo\-like white frame to each image\&.
+.RE
+.PP
+\fIpolaroidframe\fR: Use \fB\-k\fR\fB\fIL\fR\fR or \fB\-\-funky \fR\fB\fIpolaroidframe\fR\fR
+.RS 4
+Adds a polaroid picture\-like white frame to each image\&.
+.RE
+.PP
+\fIphotos\fR: Use \fB\-k\fR\fB\fIc\fR\fR or \fB\-\-funky \fR\fB\fIphotos\fR\fR
+.RS 4
+Combination of
+\fIrotate\fR,
+\fIphotoframe\fR
+and
+\fIoverlap\fR\&.
+.sp
+Same as
+\fB\-kp \-kr \-ko\fR\&.
+.RE
+.PP
+\fIpolaroid\fR: Use \fB\-k\fR\fB\fIp\fR\fR or \fB\-\-funky \fR\fB\fIpolaroid\fR\fR
+.RS 4
+Combination of
+\fIrotate\fR,
+\fIpolaroidframe\fR
+and
+\fIoverlap\fR\&.
+.sp
+Same as
+\fB\-kL \-kr \-ko\fR\&.
+.RE
+.PP
+\fIfilm\fR: Use \fB\-k\fR\fB\fIi\fR\fR or \fB\-\-funky \fR\fB\fIfilm\fR\fR
+.RS 4
+Imitates filmstrip look\&.
+.RE
+.PP
+\fIrandom\fR: Use \fB\-k\fR\fB\fIx\fR\fR or \fB\-\-funky \fR\fB\fIrandom\fR\fR
+.RS 4
+Randomises colours and fonts\&.
+.RE
+.RE
+.PP
+\fB\-\-anonymous\fR
+.RS 4
+Disable the \(FoPreview created by
+\fIUSERNAME\fR\(Fc line in the footer\&.
+.RE
+.PP
+\fB\-Ij\fR\fB[=\fIFONTNAME\fR]\fR, \fB\-Ik\fR\fB[=\fIFONTNAME\fR]\fR, \fB\-\-nonlatin\fR
+.RS 4
+Use an alternate font in the heading for the video file name\&.
+.sp
+Required to display correctly file names in some languages with non\-Latin alphabets (Chinese, Japanese, Hangul, Cyrillic, \&.\&.\&.)\&.
+.sp
+When no font name is given, a reasonable choice will be made if possible\&.
+.sp
+When
+\fIFONTNAME\fR
+is given, it can be either a font name:
+.sp
+$ \fBvcs \-Ij=Sazanami\-Mincho\-Regular \fR\fBfile\&.avi\fR
+.sp
+Or a font file name:
+.sp
+$ \fBvcs \-Ij=\fR\fB/usr/share/fonts/ttf/ttf\-japanese\-mincho\&.ttf\fR\fB \fR\fBfile\&.avi\fR
+.sp
+A list of available fonts and their names can be obtained with the command
+\fBidentify \fR\fB\fB\-list font\fR\fR
+.RE
+.PP
+\fB\-O \fR\fB\fISETTING=VALUE\fR\fR, \fB\-\-override \fR\fB\fISETTING=VALUE\fR\fR
+.RS 4
+Changes the value of SETTING to VALUE, as if it was set from a configuration file\&.
+.sp
+Some settings can only be changed through configuration files or overrides, while others have associated command\-line options\&.
+.sp
+\fIVALUE\fR
+can be quoted to include spaces:
+.sp
+$ \fBvcs \-O SOME_SETTING="my value" \fR\fB\fI\&.\&.\&.\fR\fR
+.sp
+\fIVALUE\fR
+can also refer to some other setting:
+.sp
+$ \fBvcs \-O SOME_SETTING=\*(Aq$SOME_OTHER_SETTING\*(Aq \fR\fB\fI\&.\&.\&.\fR\fR
+.sp
+See
+\fBvcs.conf\fR(5)
+and the
+\m[blue]\fBonline documentation\fR\m[]\&\s-2\u[1]\d\s+2
+for a list of possible
+\fISETTING\fRs\&.
+.RE
+.PP
+\fB\-W \fR\fB\fIWORKAROUND\fR\fR
+.RS 4
+Enables one of the known workarounds for problematic files, or some tweak:
+.PP
+\fB\-W\fR\fB\fIs\fR\fR
+.RS 4
+Increase length of safe measuring (try harder)\&.
+.sp
+Repeat to increase further\&.
+.RE
+.PP
+\fB\-W\fR\fB\fIS\fR\fR
+.RS 4
+Scan all video, if required, to get a valid length measuring\&.
+.RE
+.PP
+\fB\-W\fR\fB\fIp\fR\fR
+.RS 4
+Increase safe measuring precision (i\&.e\&. halve the probe stepping)\&.
+.sp
+Repeat to increase further\&.
+.RE
+.PP
+\fB\-W\fR\fB\fIP\fR\fR
+.RS 4
+Inverse of
+\fB\-Wp\fR\&.
+.RE
+.PP
+\fB\-W\fR\fB\fIo\fR\fR
+.RS 4
+Change FFmpeg\*(Aqs arguments order, might work with some files that fail otherwise\&.
+.RE
+.PP
+\fB\-W\fR\fB\fIc\fR\fR
+.RS 4
+Disable colour in console messages\&.
+.sp
+.if n \{\
+.sp
+.\}
+.RS 4
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+.ps +1
+\fBNote\fR
+.ps -1
+.br
+Some colour will be printed by default until this option is handled\&. If you need to completely disable colour, e\&.g\&. to run in cron jobs, you can do so by setting an appropriate TERM environment variable e\&.g\&.
+.sp
+$ \fBTERM=\fR\fB\fIvt100\fR\fR\fB vcs\fR
+.sp
+will make the script switch to monochrome output altogether\&.
+.sp .5v
+.RE
+.RE
+.RE
+.SH "DEBUGGING OPTIONS"
+.PP
+\fB\-R \fR\fB\fIFILE\fR\fR, \fB\-\-randomsource \fR\fB\fIFILE\fR\fR
+.RS 4
+Use FILE as a source for "random" values\&.
+.sp
+They won\*(Aqt be random anymore, so two runs with the same source and same arguments will produce the same output in modes which use randomisation (e\&.g\&. the modes triggered by
+\fB\-k \fR\fB\fIphotos\fR\fR
+and
+\fB\-k \fR\fB\fIpolaroid\fR\fR)\&.
+.RE
+.PP
+\fB\-D\fR
+.RS 4
+Debug mode\&.
+.sp
+Used to test features/integrity\&. It:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Prints the input command line
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Sets the title to reflect the command line
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Does a basic test of consistency
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+Prints a trace of all internal functions as they are called
+.RE
+.sp
+Repeat to just test consistency and exit
+.RE
+.PP
+\fB\-Z \fR\fB\fIFEATURE\fR\fR, \fB\-\-undocumented \fR\fB\fIFEATURE\fR\fR
+.RS 4
+Testbed for experimental and debugging features\&. Some
+\fIFEATURE\fRs might be
+\fIpromoted\fR
+in the future to actual command\-line options\&.
+.sp
+\fIFEATURE\fRs here are rough implementations and have no error\-handling\&.
+.sp
+\fIFEATURE\fR
+names can be added or removed in every version, silently, so don\*(Aqt rely on them\&.
+.sp
+Useful for end\-users:
+.PP
+\fIidonly\fR
+.RS 4
+Prints the file probing/identification information and exit\&.
+.RE
+.PP
+\fIdisplay\fR
+.RS 4
+Display the generated contact sheet\&.
+.RE
+.PP
+\fIdiscard\fR
+.RS 4
+Remove the created file on exit\&.
+.RE
+.RE
+.SH "FILES"
+.PP
+/etc/vcs\&.conf
+.RS 4
+The system\-wide configuration file to control the behaviour of
+vcs\&. See
+\fBvcs.conf\fR(5)
+for further details\&.
+.RE
+.PP
+${HOME}/\&.vcs\&.conf, ${HOME}/\&.vcs/vcs\&.conf
+.RS 4
+The per\-user configuration file to control the behaviour of
+vcs\&. See
+\fBvcs.conf\fR(5)
+for further details\&.
+.RE
+.SH "INTERVALS"
+.PP
+Intervals and timestamps can be specified in seconds or in a human\-readable format that follows the syntax
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+\fIHOURS\fRh\fIMINUTES\fRm\fISECONDS\fRs\&.\fIMILLISECONDS\fR
+.fi
+.if n \{\
+.RE
+.\}
+.sp
+where each element is optional\&.
+.PP
+See
+\m[blue]\fB\%http://p.outlyer.net/dox/vcs:time_syntax\fR\m[]
+for more details\&.
+.sp
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+.B Table\ \&1.\ \&Interval syntax examples
+.TS
+allbox tab(:);
+lB lB lB.
+T{
+Example
+T}:T{
+Equivalence
+T}:T{
+Standard time format
+T}
+.T&
+l l l
+l l l
+l l l.
+T{
+1h30m30
+T}:T{
+1h30m30s\&.00
+T}:T{
+1:30:30\&.00
+T}
+T{
+30
+T}:T{
+0h0m30s\&.00
+T}:T{
+0:00:30\&.00
+T}
+T{
+3600
+T}:T{
+1h0m0s\&.00
+T}:T{
+1:00:00\&.00
+T}
+.TE
+.sp 1
+.SH "ENVIRONMENT"
+.PP
+\fBTEMPDIR\fR
+.RS 4
+Fallback temporary directory when
+/dev/shm
+is not available\&. Due to the big size of temporary files, it is recommended to use a temporary directory on a fast filesystem\&.
+.RE
+.PP
+\fBTERM\fR
+.RS 4
+Affects the usage of colour output to console being on or off by default\&. See the documentation for
+\fB\fB\-W\fR\fB\fIc\fR\fR\fR\&.
+.RE
+.SH "DIAGNOSTICS"
+.PP
+The default verbosity level will print
+vcs\*(Aq progress and any errors or warnings on
+stderr\&.
+.PP
+\fB\-\-quiet\fR
+can be used to reduce verbosity\&.
+.PP
+The verbosity level and where to direct
+stderr
+can be controlled through configuration files, see
+\fBvcs.conf\fR(5)\&.
+.PP
+\fBvcs\fR
+provides some return codes, they follow the semi\-standardised values defined in
+sysexits\&.h:
+.\" line length increase to cope w/ tbl weirdness
+.ll +(\n(LLu * 62u / 100u)
+.TS
+ll.
+\fICode\fR	\fIDiagnostic\fR
+T{
+\fB\ \&0\fR (\fBEX_OK\fR)
+T}	T{
+Program exited successfully\&.
+T}
+T{
+\fB64\fR (\fBEX_USAGE\fR)
+T}	T{
+Error in the arguments\&.
+T}
+T{
+\fB66\fR (\fBEX_NOINPUT\fR)
+T}	T{
+Can\*(Aqt access some input file or it has an incorrect format\&.
+T}
+T{
+\fB69\fR (\fBEX_UNAVAILABLE\fR)
+T}	T{
+Unsatisfied dependency\&.
+T}
+T{
+\fB70\fR (\fBEX_SOFTWARE\fR)
+T}	T{
+Internal inconsistency (bug)\&.
+T}
+T{
+\fB73\fR (\fBEX_CANTCREAT\fR)
+T}	T{
+Error creating temporary or output files\&.
+T}
+.TE
+.\" line length decrease back to previous value
+.ll -(\n(LLu * 62u / 100u)
+.sp
+.SH "BUGS"
+.PP
+The upstream bug tracker system can be found at
+\m[blue]\fB\%http://b.outlyer.net\fR\m[], bugs can be reported through the
+\m[blue]\fBBTS\fR\m[]\&\s-2\u[2]\d\s+2
+or through e\-mail addressed at
+<outlyer@gmail\&.com>\&.
+.if n \{\
+.sp
+.\}
+.RS 4
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+.ps +1
+\fBNote\fR
+.ps -1
+.br
+.PP
+Recent versions of
+ImageMagick,
+mplayer
+and
+ffmpeg
+should be used for maximum compatibility\&.
+.sp .5v
+.RE
+.PP
+Most testing is done on
+Debian Sid, plus
+FreeBSD
+for
+BSD
+compatibility tests\&.
+.PP
+Using
+OSes other than
+Debian Sid
+or
+FreeBSD
+might uncover bugs and produce incompatibilities unknown to the author\&.
+.SH "SEE ALSO"
+.PP
+\fBvcs.conf\fR(5),
+\fBconvert\fR(1),
+\fBffmpeg\fR(1),
+\fBmplayer\fR(1)
+.SH "AUTHOR"
+.PP
+\fBToni Corvera\fR <\&outlyer@gmail\&.com\&> <\&\m[blue]\fB\%http://corvera.eu./\fR\m[]\&>
+.RS 4
+.RE
+.SH "COPYRIGHT"
+.br
+Copyright \(co 2007-2017 Toni Corvera
+.br
+.PP
+Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Lesser General Public License, Version 2 or (at your option) any later version published by the Free Software Foundation\&.
+.sp
+.SH "NOTES"
+.IP " 1." 4
+online documentation
+.RS 4
+\%http://p.outlyer.net/dox/vcs
+.RE
+.IP " 2." 4
+BTS
+.RS 4
+\%http://b.outlyer.net
+.RE

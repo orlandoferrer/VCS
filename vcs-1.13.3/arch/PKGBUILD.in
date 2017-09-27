@@ -1,0 +1,43 @@
+#
+# $Rev: 648 $
+#
+# Build with '$ makepkg' on the same directory as this file
+#
+
+# Maintainer: Toni Corvera (Upstream) <outlyer@gmail.com>
+pkgname=vcs
+pkgver=@VERSION@
+pkgrel=1
+pkgdesc="tool to create contact sheets (previews) from videos"
+arch=('any')
+url="http://p.outlyer.net/vcs/"
+license=('LGPL')
+depends=('bash>=3.1' 'imagemagick>=6.3.5.7' 'ffmpeg')
+makedepends=('bzip2')
+optdepends=('mplayer: for better more complete detection/capture'
+            'lsdvd: for DVD support'
+            'perl: for DVD support')
+backup=()
+options=('docs' 'zipman')
+source=($url/files/$pkgname-$pkgver.tar.gz)
+md5sums=(@MD5@) #generate with 'makepkg -g'
+sha1sums=(@SHA1@)
+# Debian & Arch didn't agree on this on my first try (???)
+sha256sums=(@SHA256@)
+
+prepare() {
+  cd $srcdir/$pkgname-$pkgver
+  make prepackage
+}
+
+package() {
+  cd $srcdir/$pkgname-$pkgver
+  make install DESTDIR=${pkgdir} prefix=/usr
+  install -D $srcdir/$pkgname-$pkgver/examples/vcs.conf.example \
+    ${pkgdir}/usr/share/doc/$pkgname/vcs.conf.example
+}
+
+#man page (TODO)
+# install -D -m644 $pkgname.1 ${pkgdir}/usr/share/man1/$pkgname.1 || return 1
+
+# vim:set filetype=sh ts=2 et: #

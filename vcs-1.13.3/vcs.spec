@@ -1,0 +1,124 @@
+#
+# $Rev: 653 $
+#
+# spec file for vcs rpm
+#
+# originally based on mp3plot's which in turn was based on other sources
+
+%define is_suse 0%{?suse_version}
+%define is_fedora 0%{?fedora}
+%define is_redhat 0%{?rhl}
+%define is_rhel 0%{?rhel}
+
+%define distname generic
+%define disttag .generic
+
+%if %{is_fedora}
+%define distname fedora
+%define disttag %{dist}
+%endif
+%if %{is_redhat}
+%define distname redhat
+%define disttag %{dist}
+%endif
+%if %{is_suse}
+%define distname suse
+%define disttag .suse
+%endif
+%if %{is_rhel}
+%define distname rhel
+%define disttag %{dist}
+%endif
+
+Name: vcs
+Summary: Tool to create contact sheets (previews) from videos
+Version: 1.13.3
+Release: pon1%{?disttag}
+License: LGPLv2+
+Packager: Toni Corvera
+Group: Applications/Multimedia
+Source0: http://p.outlyer.net/%{name}/files/%{name}-%{version}.tar.gz
+BuildRoot: %{_tmppath}/%{name}-%{version}-%{release}-build
+BuildArch: noarch
+#Requires: rpm >= 4.13
+#Requires: ( mplayer or ffmpeg )
+Requires: ffmpeg
+Recommends: mplayer
+Requires: bash >= 3.1
+Requires: ImageMagick >= 6.3.5-7
+Requires: coreutils
+URL: http://p.outlyer.net/vcs/
+#BuildRequires:
+#Prereq: /sbin/ldconfig
+#Requires:
+AutoReqProv: yes
+## Allow relocation (e.g. rpm --prefix /opt/vcs)
+Prefix: /usr
+
+%description
+Video Contact Sheet *NIX (vcs for short) is a script that creates a contact
+sheet (preview) from videos by taking still captures distributed over the
+length of the video. The output image contains useful information on the video
+such as codecs, file size, screen size, frame rate, and length.
+
+%prep
+#echo %_target
+echo Building %{name}-%{version}-%{release}
+
+%setup -q -n %{name}-%{version}
+
+%build
+make examples/vcs.conf.example
+
+%install
+make DESTDIR=%buildroot prefix=%{prefix} install
+# as per rpmlint: E: wrong-script-interpreter /usr/bin/vcs /usr/bin/env bash
+sed -i '1s@.*@#!/bin/bash@' %buildroot/usr/bin/vcs
+
+%clean
+[ ${RPM_BUILD_ROOT} != "/" ] && rm -rf ${RPM_BUILD_ROOT}
+
+#%post
+# postinst
+
+#%postun
+# postuninst
+
+%files
+%defattr(-,root,root)
+# binary
+%{_bindir}/%{name}
+# Profiles
+%{prefix}/share/vcs/profiles/black.conf
+%{prefix}/share/vcs/profiles/mosaic.conf
+%{prefix}/share/vcs/profiles/white.conf
+%{prefix}/share/vcs/profiles/compact.conf
+# Manpages
+%{_mandir}/man1/%{name}.1.gz
+%{_mandir}/man5/%{name}.conf.5.gz
+%doc CHANGELOG
+# Config example
+%doc examples/vcs.conf.example
+
+%changelog
+* Sat May 20 2017 - outlyer (at) gmail (dot) com
+- Rewrote dependencies with notes about boolean (alternative) dependecies
+- Depend on ffmpeg and recommend mplayer while distributions catch up with RPM
+- Removed Mandrake detection and updated the macro for SUSE
+
+* Fri Mar 08 2013 - outlyer (at) gmail (dot) com
+- Install 'compact' profile
+
+* Sun Aug 28 2011 - outlyer (at) gmail (dot) com
+- Install additional manpage for configuration file
+
+* Tue Aug 24 2010 - outlyer (at) gmail (dot) com
+- Install manpage
+
+* Sat Apr 10 2010 - outlyer (at) gmail (dot) com
+- Added profiles and example configuration
+- Use %{prefix}
+
+* Sun Mar 07 2010 - outlyer (at) gmail (dot) com
+- Initial RPM packaging
+

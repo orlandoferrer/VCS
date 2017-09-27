@@ -1,0 +1,1162 @@
+'\" t
+.\"     Title: vcs.conf
+.\"    Author: Toni Corvera <outlyer@gmail.com>
+.\" Generator: DocBook XSL Stylesheets v1.79.1 <http://docbook.sf.net/>
+.\"      Date: Last revision: 2011-08-29
+.\"    Manual: Video Contact Sheet *NIX
+.\"    Source: vcs.conf $Rev: 668 $
+.\"  Language: English
+.\"
+.TH "VCS\&.CONF" "5" "Last revision: 2011\-08\-29" "vcs.conf $Rev: 668 $" "Video Contact Sheet *NIX"
+.\" -----------------------------------------------------------------
+.\" * Define some portability stuff
+.\" -----------------------------------------------------------------
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.\" http://bugs.debian.org/507673
+.\" http://lists.gnu.org/archive/html/groff/2009-02/msg00013.html
+.\" ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+.ie \n(.g .ds Aq \(aq
+.el       .ds Aq '
+.\" -----------------------------------------------------------------
+.\" * set default formatting
+.\" -----------------------------------------------------------------
+.\" disable hyphenation
+.nh
+.\" disable justification (adjust text to left margin only)
+.ad l
+.\" -----------------------------------------------------------------
+.\" * MAIN CONTENT STARTS HERE *
+.\" -----------------------------------------------------------------
+.SH "NAME"
+vcs.conf \- vcs configuration file
+.SH "DESCRIPTION"
+.PP
+This manual page describes the format and available settings in configuration and profile files for
+\fBvcs\fR(1)
+.PP
+There\*(Aqs two types of files that follow this syntax:
+configuration files
+(see
+the section called \(lqCONFIGURATION FILES\(rq) and
+profiles
+(see
+the section called \(lqPROFILE FILES\(rq)\&. They\*(Aqll be called collectively
+\fIsettings files\fR
+in this manual page\&.
+.PP
+Configuration files are meant to be loaded by default, intended to set user\*(Aqs preferred options, while profiles are meant to be loaded on\-demand, intended to allow different parallel sets of settings\&.
+.SH "SYNTAX"
+.PP
+Settings files contain a series of
+\fISETTING\fR=\fIVALUE\fR
+assignments\&.
+.PP
+Comments can be included by preceding `#\*(Aq to them\&.
+.SS "META\-INFORMATION"
+.PP
+Meta\-information fields can be contained in comments\&. They are written as \*(Aqvcs:\fIFIELDNAME\fR:\*(Aq\&.
+.PP
+Currently supported meta\-information fields:
+.PP
+vcs:conf:
+.RS 4
+Marks a file as following this format\&.
+.sp
+Files without this field will be rejected\&.
+\&\s-2\u[1]\d\s+2
+.RE
+.PP
+vcs:desc: \fIDESCRIPTION\fR
+.RS 4
+Describes this particular file\*(Aqs purpose, it is shown e\&.g\&. when listing available profiles\&.
+.sp
+It is currently ignored for configuration files\&.
+.RE
+.SS "SYNTAX EXAMPLE"
+.sp
+.if n \{\
+.RS 4
+.\}
+.nf
+# vcs:conf:
+# vcs:desc:  White\-on\-black
+bg_all=black # Black background
+fg_all=white # White foreground
+.fi
+.if n \{\
+.RE
+.\}
+.SH "CONFIGURATION FILES"
+.PP
+There\*(Aqs three configuration files loaded by default if present, in order:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+/etc/vcs\&.conf
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fB${HOME}\fR/\&.vcs\&.conf
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fB${HOME}\fR/vcs/vcs\&.conf
+.RE
+.PP
+Every file in this list overrides the previous when it re\-defines a setting\&.
+.PP
+Configuration files can be loaded manually off of any path by using the
+\fB\-\-config \fR\fB\fIFILENAME\fR\fR
+option\&.
+.SH "PROFILE FILES"
+.PP
+No profile is loaded by default\&.
+.PP
+Profiles are searched in three possible locations, in order:
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+\fB${HOME}\fR/\&.vcs/profiles/
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+/usr/local/share/vcs/profiles/
+.RE
+.sp
+.RS 4
+.ie n \{\
+\h'-04'\(bu\h'+03'\c
+.\}
+.el \{\
+.sp -1
+.IP \(bu 2.3
+.\}
+/usr/share/vcs/profiles/
+.RE
+.PP
+Only the first profile for each name will be considered\&. Profiles with the same name will be hidden\&.
+.PP
+$ \fBvcs \-\-profile :list\fR
+.PP
+can be used to get a list of available profiles\&.
+.PP
+Profiles can only be loaded from the
+listed paths\&.
+.SH "SETTINGS"
+.PP
+This list details the available settings\&. Settings are listed in alphabetical order\&.
+.PP
+A list of available settings, grouped by categories, is also kept online at
+\m[blue]\fB\%http://p.outlyer.net/dox/vcs:conf_files\fR\m[]
+.PP
+All settings
+.RS 4
+
+anonymous,
+bg_all,
+bg_heading,
+bg_contact,
+bg_sign,
+bg_title,
+bg_tstamps,
+capturer,
+columns,
+debug,
+decoder,
+disable_shadows,
+disable_shadows,
+disable_timestamps,
+end_offset,
+extended_factor,
+fg_all,
+fg_heading,
+fg_sign,
+fg_title,
+fg_tstamps,
+font_all,
+font_heading,
+font_sign,
+font_title,
+font_tstamps,
+format,
+getopt,
+height,
+interval,
+nonlatin_filenames,
+nonlatin_font,
+numcaps,
+padding,
+plain_messages,
+profiles,
+pts_meta,
+pts_sign,
+pts_title,
+pts_tstamps,
+quality,
+signature,
+stderr,
+stdout,
+timecode_from,
+user,
+verbosity
+.RE
+.PP
+anonymous
+.RS 4
+Enables or disables the anonymous mode\&.
+.sp
+Set to
+1
+to enable this mode, in which the contact sheet footer won\*(Aqt include the \(FoPreview created by
+\fI$user\fR\(Fc line\&.
+.sp
+Default:
+0
+(\(== disabled)\&.
+.sp
+Equivalent command\-line option:
+\fB\-\-anonymous\fR\&.
+.RE
+.PP
+bg_all
+.RS 4
+Sets the value of all
+bg_
+variables at once (bg_contact,
+bg_heading,
+bg_sign,
+bg_tstamps
+and
+bg_title)\&.
+.RE
+.PP
+bg_heading, bg_contact, bg_sign, bg_title, bg_tstamps
+.RS 4
+These variables control the background colours of each section in the contact sheet\&.
+.if n \{\
+.sp
+.\}
+.RS 4
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+.ps +1
+\fBNote\fR
+.ps -1
+.br
+Valid colour values are those understood by
+ImageMagick, e\&.g\&.
+\m[blue]\fBcolour names\fR\m[]\&\s-2\u[2]\d\s+2
+or
+HTML/CSS\-style colour specifications (\fI#RRGGBB\fR\fI[AA]\fR,
+\fI#RGB\fR\fI[A]\fR)\&.
+.sp
+See
+\m[blue]\fB\%http://www.imagemagick.org/script/color.php\fR\m[]
+for more details and additional formats\&.
+.sp .5v
+.RE
+.if n \{\
+.sp
+.\}
+.RS 4
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+.ps +1
+\fBTip\fR
+.ps -1
+.br
+The command
+$ \fBconvert \-list color\fR
+prints a list of all known colour names\&.
+.sp .5v
+.RE
+bg_heading
+\(em File meta information (size, codec, etc\&.)\&. Default:
+#afcd7a
+[\(==
+RGB(175,205,122)]
+.sp
+bg_title
+\(em Title (with option
+\fB\-T\fR)\&. Default:
+\fBWhite\fR
+[\(==
+RGB(255,255,255)]
+.sp
+bg_contact
+\(em Captures\&. Default:
+\fBWhite\fR
+[\(==
+RGB(255,255,255)]
+.sp
+bg_tstamps
+\(em Timestamps boxes\&. Default:
+#000000aa
+[\(==
+RGBA(0,0,0,0\&.67)]
+.sp
+bg_sign
+\(em Footer\&. Default:
+\fBSlateGray\fR
+[\(==
+RGB(112,128,144)]
+.RE
+.PP
+capturer
+.RS 4
+Controls which capturer to use\&.
+.sp
+Symbolic values:
+ffmpeg
+\(rA FFmpeg,
+mplayer
+\(rA MPlayer
+.sp
+Default:
+ffmpeg
+.sp
+Related command\-line options:
+\fB\-F\fR,
+\fB\-\-ffmpeg\fR
+and
+\fB\-M\fR,
+\fB\-\-mplayer\fR
+.if n \{\
+.sp
+.\}
+.RS 4
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+.ps +1
+\fBWarning\fR
+.ps -1
+.br
+DVD mode sets the capturer to MPlayer disregarding the value of this setting\&.
+.sp .5v
+.RE
+Since version 1\&.13
+.RE
+.PP
+columns
+.RS 4
+Number of columns
+.sp
+Default:
+2
+.RE
+.PP
+debug
+.RS 4
+Enable or disable debug mode\&. Set to
+\fB1\fR
+to enable\&.
+.sp
+Default:
+0
+(disabled)\&.
+.sp
+Equivalent command\-line option:
+\fB\-D\fR\&.
+.RE
+.PP
+decoder
+.RS 4
+.if n \{\
+.sp
+.\}
+.RS 4
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+.ps +1
+\fBWarning\fR
+.ps -1
+.br
+This setting is
+\fBdeprecated\fR, use
+capturer
+instead\&. Notice
+capturer
+has a different syntax\&.
+.sp .5v
+.RE
+Controls which capturer to use\&.
+.sp
+Symbolic values:
+$DEC_FFMPEG
+\(rA FFmpeg,
+$DEC_MPLAYER
+\(rA MPlayer
+.sp
+Default:
+$DEC_FFMPEG
+(FFmpeg)
+.sp
+Related command\-line options:
+\fB\-F\fR,
+\fB\-\-ffmpeg\fR
+and
+\fB\-M\fR,
+\fB\-\-mplayer\fR
+.if n \{\
+.sp
+.\}
+.RS 4
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+.ps +1
+\fBWarning\fR
+.ps -1
+.br
+DVD mode sets the capturer to MPlayer disregarding the value of this setting\&.
+.sp .5v
+.RE
+.RE
+.PP
+disable_shadows
+.RS 4
+Disables drop shadows when set to
+1\&.
+.sp
+Default:
+0
+.sp
+Equivalent command\-line option:
+\fB\-ds\fR,
+\fB\-\-disable shadows\fR\&.
+.RE
+.PP
+disable_timestamps
+.RS 4
+Disables timestamps on captures when set to
+1\&.
+.sp
+Default:
+0
+.sp
+Equivalent command\-line option:
+\fB\-dt\fR,
+\fB\-\-disable timestamps\fR\&.
+.RE
+.PP
+end_offset
+.RS 4
+End offset value (amount of time ignored from the end of videos)\&.
+.sp
+Can be a percentage (of the detected length of each video) or an amount of time, specified in the time syntax specified in
+\fBvcs\fR(1)\&.
+.sp
+Default:
+5%
+.sp
+Equivalent command\-line option:
+\fB\-E\fR,
+\fB\-\-end\-offset\fR\&.
+.RE
+.PP
+extended_factor
+.RS 4
+Extended factor value\&.
+.sp
+When set to a value different than
+0
+enables extended mode\&.
+.sp
+Default:
+0
+.sp
+See the
+\m[blue]\fBextended mode\fR\m[]\&\s-2\u[3]\d\s+2
+documentation\&.
+.sp
+Equivalent command\-line option:
+\fB\-e\fR,
+\fB\-\-extended\fR\&.
+.RE
+.PP
+fg_all
+.RS 4
+Sets the value of all
+fg_
+variables at once (fg_heading,
+fg_sign,
+fg_title
+and
+fg_tstamps)\&.
+.sp
+Since version 1\&.12\&.2
+.RE
+.PP
+fg_heading, fg_sign, fg_title, fg_tstamps
+.RS 4
+These variables control the font colours of each section in the contact sheet\&.
+.if n \{\
+.sp
+.\}
+.RS 4
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+.ps +1
+\fBNote\fR
+.ps -1
+.br
+Valid colour values are those understood by
+ImageMagick, e\&.g\&.
+\m[blue]\fBcolor names\fR\m[]\&\s-2\u[2]\d\s+2
+or HTML/CSS\-style color specifications (\fI#RRGGBB\fR\fI[AA]\fR,
+\fI#RGB\fR\fI[A]\fR)\&.
+.sp
+See
+\m[blue]\fB\%http://www.imagemagick.org/script/color.php\fR\m[]
+for more details and additional formats\&.
+.sp .5v
+.RE
+.if n \{\
+.sp
+.\}
+.RS 4
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+.ps +1
+\fBTip\fR
+.ps -1
+.br
+The command
+$ \fBconvert \-list color\fR
+prints a list of all known colour names\&.
+.sp .5v
+.RE
+fg_heading
+\(em File meta information\&. Default:
+\fBBlack\fR
+[\(== RGB(0,0,0)]
+.sp
+fg_title
+\(em Title (with option
+\fB\-T\fR)\&. Default:
+\fBBlack\fR
+[\(== RGB(0,0,0)]
+.sp
+fg_tstamps
+\(em Timestamps\&. Default:
+\fBWhite\fR
+[\(== RGB(255,255,255)]
+.sp
+fg_sign
+\(em Footer\&. Default:
+\fBBlack\fR
+[\(== RGB(0,0,0)]
+.RE
+.PP
+font_all
+.RS 4
+Sets the value of all
+font_
+variables at once (font_heading,
+font_sign,
+font_title
+and
+font_tstamps)
+.sp
+Additional details: Since 1\&.12\&.2
+.RE
+.PP
+font_heading, font_sign, font_title, font_tstamps
+.RS 4
+These variables control the fonts used in each section of the contact sheet\&.
+.sp
+font_heading
+\(em File meta information\&. Default:
+\fBDejaVu\-Sans\-Book\fR
+.sp
+font_title
+\(em Title (with option
+\fB\-T\fR)\&. Default:
+\fBDejaVu\-Sans\-Book\fR
+.sp
+font_tstamps
+\(em Used for timestamps over the thumbnails\&. Default:
+\fBDejaVu\-Sans\-Book\fR
+.sp
+font_sign
+\(em Footer / signature\&. Default:
+\fBDejaVu\-Sans\-Book\fR
+.RE
+.PP
+format
+.RS 4
+Output file format
+.sp
+Default:
+png
+.if n \{\
+.sp
+.\}
+.RS 4
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+.ps +1
+\fBNote\fR
+.ps -1
+.br
+Should match the extension of a format known by
+ImageMagick\&.
+.sp .5v
+.RE
+Related command\-line options:
+\fB\-j\fR,
+\fB\-\-jpeg\fR
+and
+\fB\-\-jpeg2\fR
+.RE
+.PP
+getopt
+.RS 4
+GNU
+\fBgetopt\fR
+command
+.sp
+Default:
+getopt
+.if n \{\
+.sp
+.\}
+.RS 4
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+.ps +1
+\fBWarning\fR
+.ps -1
+.br
+The
+\fBgetopt\fR
+command name must be set correctly or vcs won\*(Aqt work\&.
+.sp
+Must be a version compatible with
+GNU
+syntax\&.
+.sp
+Can only be set in configuration files (i\&.e\&. not from the command\-line)\&.
+.sp .5v
+.RE
+.RE
+.PP
+height
+.RS 4
+Height of individual captures\&.
+.sp
+Can be a fixed number of pixels or a percentage\&.
+.sp
+The default is the same as input i\&.e\&.
+100%\&.
+.sp
+Equivalent command\-line option:
+\fB\-H\fR,
+\fB\-\-height\fR\&.
+.RE
+.PP
+interval
+.RS 4
+Interval between captures, when the mode of operation is to capture at fixed intervals\&.
+.sp
+Accepts the same format as any option accepting times, see
+\fBvcs\fR(1)
+for details on the acceptable syntax\&.
+.sp
+Default:
+300
+(\(== 5 minutes)\&.
+.if n \{\
+.sp
+.\}
+.RS 4
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+.ps +1
+\fBNote\fR
+.ps -1
+.br
+Unlike its command\-line counterpart (\fB\-i\fR
+or
+\fB\-\-interval\fR), changing the value of
+interval
+doesn\*(Aqt automatically switch modes to capture at intervals\&.
+.sp
+The mode of operation is controlled by
+timecode_from\&.
+.sp .5v
+.RE
+Equivalent command\-line option:
+\fB\-i\fR,
+\fB\-\-interval\fR\&.
+.RE
+.PP
+nonlatin_filenames
+.RS 4
+Enables or disables the usage of an alternate font to print filenames in the contact sheet meta\-information section\&.
+.sp
+Set to
+1
+to use
+nonlatin_font
+to print filenames\&.
+.sp
+Default:
+0
+\ \&\(rA\ \& use the standard font,
+font_heading\&.
+.sp
+Since 1\&.12\&.2
+.sp
+Equivalent command\-line option:
+\fB\-\-nonlatin\fR,
+\fB\-Ik\fR,
+\fB\-Ij\fR\&.
+.RE
+.PP
+nonlatin_font
+.RS 4
+Font used for non\-Latin filenames when
+nonlatin_filenames
+is enabled\&.
+.sp
+Default: (picked automatically)
+.if n \{\
+.sp
+.\}
+.RS 4
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+.ps +1
+\fBNote\fR
+.ps -1
+.br
+This font is, when possible, picked automatically\&.
+.sp
+Can be set manually with the
+\fB\-Ik\fR
+or
+\fB\-Ij\fR
+option\&.
+.sp .5v
+.RE
+Equivalent command\-line option:
+\fB\-Ik\fR,
+\fB\-Ij\fR\&.
+.RE
+.PP
+numcaps
+.RS 4
+Number of captures, when the mode of operation is to do a fixed number of captures\&.
+.sp
+Default:
+16\&.
+.if n \{\
+.sp
+.\}
+.RS 4
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+.ps +1
+\fBNote\fR
+.ps -1
+.br
+Unlike its command\-line counterpart (\fB\-n\fR
+or
+\fB\-\-numcaps\fR), changing the value of
+numcaps
+doesn\*(Aqt automatically switch modes to do a fixed number of captures\&.
+.sp
+The mode of operation is controlled by
+timecode_from\&.
+.sp .5v
+.RE
+Equivalent command\-line option:
+\fB\-n\fR,
+\fB\-\-numcaps\fR\&.
+.RE
+.PP
+padding
+.RS 4
+Number of pixels between captures when placed in the contact sheet\&.
+.sp
+Default:
+2
+.sp
+Related command\-line option:
+\fB\-dp\fR,
+\fB\-\-disable padding\fR\&.
+.RE
+.PP
+plain_messages
+.RS 4
+Allows disabling colourised feedback to the console\&.
+.sp
+Set to
+1
+to print plain, monochrome, feedback\&.
+.sp
+Default:
+0
+(\(== don\*(Aqt disable colours)\&.
+.sp
+.if n \{\
+.sp
+.\}
+.RS 4
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+.ps +1
+\fBNote\fR
+.ps -1
+.br
+Some colour will be printed by default until this option is handled\&. If you need to completely disable colour, e\&.g\&. to run in cron jobs, you can do so by setting an appropriate TERM environment variable e\&.g\&.
+.sp
+$ \fBTERM=\fR\fB\fIvt100\fR\fR\fB vcs\fR
+.sp
+will make the script switch to monochrome output altogether\&.
+.sp .5v
+.RE
+.sp
+Related command\-line option:
+\fB\-Wc\fR\&.
+.RE
+.PP
+profiles
+.RS 4
+Loads profile(s)\&.
+.sp
+Its value must be a profile name or a comma\-separated list of profile names\&.
+Example:
+profiles=white,mosaic
+will load the
+white
+and
+mosaic
+profiles\&.
+Default: (empty)\&.
+.sp
+Equivalent command\-line option:
+\fB\-p\fR,
+\fB\-\-profile\fR\&.
+.RE
+.PP
+pts_meta, pts_sign, pts_title, pts_tstamps
+.RS 4
+These variables control font size of each section in the contact sheet\&.
+.sp
+These sizes are expressed in
+\fIpoints\fR\&.
+.sp
+pts_meta
+\(em File meta\-information\&. Default:
+14
+.sp
+pts_title
+\(em Title (with option
+\fB\-T\fR)\&. Default:
+33\&.
+.sp
+pts_tstamps
+\(em Timestamps\&. Default:
+14\&.
+.if n \{\
+.sp
+.\}
+.RS 4
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+.ps +1
+\fBNote\fR
+.ps -1
+.br
+The value of
+pts_tstamps
+is reduced for smaller captures\&.
+.sp .5v
+.RE
+.sp
+pts_sign
+\(em Footer/signature\&. Default:
+10
+.RE
+.PP
+quality
+.RS 4
+Image quality (level of compression) when outputting to lossy formats\&.
+.sp
+0
+to
+100, with
+100
+being the best quality (the least compression)\&.
+.sp
+Default:
+92\&.
+.if n \{\
+.sp
+.\}
+.RS 4
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+.ps +1
+\fBNote\fR
+.ps -1
+.br
+This value only affects the final image\&.
+.sp .5v
+.RE
+.RE
+.PP
+signature
+.RS 4
+Text before the user name in the footer\&.
+.sp
+Default:
+"Preview created by"\&.
+.RE
+.PP
+stderr
+.RS 4
+Standard error of programs when probing and capturing is sent here\&.
+.sp
+Default:
+/dev/null\&.
+.if n \{\
+.sp
+.\}
+.RS 4
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+.ps +1
+\fBNote\fR
+.ps -1
+.br
+Setting it to
+/dev/stderr
+to will return capturer programs to their normal behaviour\&.
+.sp .5v
+.RE
+.RE
+.PP
+stdout
+.RS 4
+Standard output of programs when probing and capturing is sent here\&.
+.sp
+Default:
+/dev/null\&.
+.if n \{\
+.sp
+.\}
+.RS 4
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+.ps +1
+\fBNote\fR
+.ps -1
+.br
+Setting it to
+/dev/stdout
+to will return capturer programs to their normal behaviour\&.
+.sp .5v
+.RE
+.RE
+.PP
+timecode_from
+.RS 4
+Controls the main mode of operation: capture at intervals or capture a fixed number of snapshots\&.
+.sp
+Possible values are
+$TC_INTERVAL
+to capture at intervals (will use
+interval), and
+$TC_NUMCAPS
+to capture a fixed number of images (will use
+numcaps)\&.
+.sp
+Default:
+$TC_INTERVAL\&.
+.if n \{\
+.sp
+.\}
+.RS 4
+.it 1 an-trap
+.nr an-no-space-flag 1
+.nr an-break-flag 1
+.br
+.ps +1
+\fBNote\fR
+.ps -1
+.br
+This setting is affected by command\-line options
+\fB\-i\fR
+and
+\fB\-n\fR\&.
+.sp .5v
+.RE
+Related command\-line options:
+\fB\-i\fR,
+\fB\-\-interval\fR
+and
+\fB\-n\fR,
+\fB\-\-numcaps\fR
+.RE
+.PP
+user
+.RS 4
+User name for the footer\*(Aqs signature\&.
+.sp
+Default:
+\fB$(id \-un)\fR
+(\(== system user name)\&.
+.sp
+Related command\-line options:
+\fB\-u\fR,
+\fB\-\-user\fR
+and
+\fB\-U\fR,
+\fB\-\-fullname\fR
+.RE
+.PP
+verbosity
+.RS 4
+Verbosity level\&.
+.sp
+Possible values:
+.\" line length increase to cope w/ tbl weirdness
+.ll +(\n(LLu * 62u / 100u)
+.TS
+ll.
+\fIValue\fR	\fIMeaning\fR
+T{
+$V_ALL
+T}	T{
+Print everything\&. Equivalent to $V_NOTICE\&.
+T}
+T{
+$V_NONE
+T}	T{
+Print no feedback at all\&. Equivalent to command\-line option \fB\-qq\fR\&.
+T}
+T{
+$V_ERROR
+T}	T{
+Print only errors\&.
+T}
+T{
+$V_WARN
+T}	T{
+Print warnings and errors\&.
+T}
+T{
+$V_INFO
+T}	T{
+Print informational messages, warnings and errors\&. This encompasses all messages, so it is equivalent to $V_ALL\&.
+T}
+.TE
+.\" line length decrease back to previous value
+.ll -(\n(LLu * 62u / 100u)
+.sp
+Default:
+$V_ALL\&.
+.sp
+Related command\-line option:
+\fB\-q\fR,
+\fB\-\-quiet\fR\&.
+.RE
+.SH "SEE ALSO"
+.PP
+\fBvcs\fR(1),
+\fBid\fR(1)
+.SH "AUTHOR"
+.PP
+\fBToni Corvera\fR <\&outlyer@gmail\&.com\&> <\&\m[blue]\fB\%http://corvera.eu./\fR\m[]\&>
+.RS 4
+.RE
+.SH "COPYRIGHT"
+.br
+Copyright \(co 2007-2017 Toni Corvera
+.br
+.PP
+Permission is granted to copy, distribute and/or modify this document under the terms of the GNU Lesser General Public License, Version 2 or (at your option) any later version published by the Free Software Foundation\&.
+.sp
+.SH "NOTES"
+.IP " 1." 4
+\[char46]/vcs.conf
+won't be rejected if this field is missing, though it's preferable to include it to be ease moving the file to a different location or turning it into a profile.
+.IP " 2." 4
+colour names
+.RS 4
+\%http://www.imagemagick.org/script/color.php#color_names
+.RE
+.IP " 3." 4
+extended mode
+.RS 4
+\%http://p.outlyer.net/dox/vcs:extended_mode
+.RE
